@@ -1,0 +1,2 @@
+RuneLite Bot Spam Filter - Developed by Fanbat
+Version - v0.0.1
