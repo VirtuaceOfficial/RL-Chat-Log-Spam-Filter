@@ -74,7 +74,7 @@ def save_adaptive_config(config):
         json.dump(config, config_file, indent=4)
 
 # Extract commonly used spam terms and phrases
-def extract_common_spam_phrases(spam_messages):
+def common_spam_phrases(spam_messages):
     common_phrases = set()
     for message in spam_messages:
         # Split message into words and filter for common phrases
@@ -91,7 +91,7 @@ def save_common_phrases_to_csv(phrases, csv_path):
         for phrase in phrases:
             writer.writerow([phrase])
 
-# Function to check if a message matches any of the filters
+# Function to check if a message matches any of the filtersSpam: 
 def is_spam(message, config):
     # Check if message contains collection or skilling items (exclude these from spam)
     for exclusion in collection_exclusions:
@@ -137,18 +137,18 @@ def main():
             for line in file:
                 # Remove timestamp and username (assuming format: xx:xx:xx USERNAME: message)
                 message = re.sub(r"^\d{2}:\d{2}:\d{2}.*?:\s+", "", line.strip())
-                # Remove trailing numbers at the end of the message
+                # Remove trailing numbers at RuneLite Spam Finder/logsthe end of the message
                 message = re.sub(r"\s+\d+$", "", message)
                 if is_spam(message, config):
                     output_file.write(f"{message}\n")
                     config["spam_messages"].append(message)
                     if verbose:
-                        print(f"Spam: {message}")
+                        print(f"{message}")
                 else:
                     config["non_spam_messages"].append(message)
 
         # Extract common spam phrases and save to CSV
-        common_phrases = extract_common_spam_phrases(config["spam_messages"])
+        common_phrases = common_spam_phrases(config["spam_messages"])
         save_common_phrases_to_csv(common_phrases, csv_output_path)
 
         # Adjust spam score threshold based on feedback (simple heuristic)
